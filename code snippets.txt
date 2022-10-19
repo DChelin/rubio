@@ -1,0 +1,142 @@
+menu:
+
+<?php wp_nav_menu(array('menu' => 'Main Nav Menu'));?>
+
+
+-------------------------------------------------------------------------------------------------------------------
+
+
+image code:
+
+<?php bloginfo('stylesheet_directory'); ?>
+
+
+-------------------------------------------------------------------------------------------------------------------
+
+
+functions widget:
+
+register_sidebar(array(
+	'name' => 'newsletter',
+    'before_widget' => '<li id="%1$s" class="botwid %2$s">',
+    'after_widget' => '</li>',
+	'before_title' => '<h3 class="bothead">',
+    'after_title' => '</h3>',
+    ));
+
+
+--------------------------------------------------------------------------------------------------------------------
+
+template widget:
+
+ <?php if ( !function_exists('dynamic_sidebar')
+        || !dynamic_sidebar("newsletter") ) : ?>    
+<?php endif; ?>
+
+
+--------------------------------------------------------------------------------------------------------------------
+
+thumbnail support (functions.php):
+
+	if ( function_exists( 'add_theme_support' ) ) { 
+  add_theme_support( 'post-thumbnails' ); 
+  set_post_thumbnail_size( 200, 150 ); 
+
+}
+
+
+--------------------------------------------------------------------------------------------------------------------
+
+new thumbnail size (functions.php):
+
+if ( function_exists( 'add_image_size' ) ) { 
+	add_image_size( 'category-page-thumb', 590, 9999 ); 
+	add_image_size( 'archive-thumb', 200, 150, true );
+}
+
+--------------------------------------------------------------------------------------------------------------------
+
+Read more (functions.php)
+
+function new_excerpt_more($more) {
+       global $post;
+	return '...<div class="readmore"><a href="'. get_permalink($post->ID) . '"> Read more &raquo;</a></div>';
+}
+add_filter('excerpt_more', 'new_excerpt_more');
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+Custom length read more (functions.php)
+
+function custom_excerpt_length( $length ) {
+  
+      return 95;
+  
+  
+}
+add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+Load one jquery library only (functions.php):
+
+
+add_action('template_redirect','custom_theme_files');
+ 
+function custom_theme_files() {
+    wp_enqueue_script( 'jquery' );
+}
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+Custom page template header
+
+<?php
+/*
+Template Name:About Ingabadi
+*/
+?>
+
+---------------------------------------------------------------------------------------------------------------------
+
+post images css
+
+img.alignnone {margin:1em 1em 1em 1em;}
+img.alignright {float:right; margin:0 0 1em 1em; }
+img.alignleft {float:left; margin:0 1em 1em 0;}
+img.aligncenter {display: block; margin-left: auto; margin-right: auto; }
+a img.alignright {float:right; margin:0 0 1em 1em; }
+a img.alignleft {float:left; margin:0 1em 1em 0; }
+a img.aligncenter {display: block; margin-left: auto; margin-right: auto; }
+
+
+--------------------------------------------------------------------------------------------------------------------
+
+Thumbnail support and sizes in the functions file
+
+	if ( function_exists( 'add_theme_support' ) ) { 
+  add_theme_support( 'post-thumbnails' ); 
+  set_post_thumbnail_size( 200, 150 ); 
+
+}
+
+
+
+if ( function_exists( 'add_image_size' ) ) { 
+	add_image_size( 'category-page-thumb', 250, 170, true ); 
+	add_image_size( 'archive-thumb', 200, 150, true );
+}
+
+
+--------------------------------------------------------------------------------------------------------------------
+
+thumbnails in category templates
+
+  <?php if ( has_post_thumbnail()) { ?>
+    <?php the_post_thumbnail('category-page-thumb'); ?>
+ <?php } else { ?>
+ <img src="<?php bloginfo('stylesheet_directory'); ?>/images/watermark.jpg" width="250" height="170" />
+<?php } ?>
